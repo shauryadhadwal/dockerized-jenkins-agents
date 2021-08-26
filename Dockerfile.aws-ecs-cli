@@ -1,0 +1,15 @@
+FROM amazonlinux:2
+RUN yum update -y \
+  && yum install -y unzip
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && ./aws/install
+
+RUN curl "https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest" -Lo "/usr/local/bin/ecs-cli" \
+  && chmod +x /usr/local/bin/ecs-cli
+
+RUN aws --version && ecs-cli --version
+
+RUN yum install -y less groff jq \
+  && yum clean all
